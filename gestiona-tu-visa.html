@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VisaExpert — Tu Visa, Nuestra Misión</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8CC82;
+    --gold-dark: #8A6A1E;
+    --navy: #0A1628;
+    --navy-mid: #12243D;
+    --navy-light: #1A3456;
+    --cream: #F5F0E8;
+    --cream-dark: #EAE2D0;
+    --white: #FFFFFF;
+    --text-muted: #7A8FA6;
+    --success: #1A7A4A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,22,40,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    transition: padding 0.3s;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--white); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold); color: var(--navy);
+    border: none; padding: 0.6rem 1.5rem;
+    border-radius: 4px; font-weight: 600;
+    font-size: 0.85rem; cursor: pointer;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0 4rem;
+    background: linear-gradient(135deg, #0A1628 0%, #12243D 50%, #0A1628 100%);
+  }
+  .hero-bg-pattern {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba(201,168,76,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(201,168,76,0.05) 0%, transparent 50%),
+      repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(201,168,76,0.02) 80px, rgba(201,168,76,0.02) 81px),
+      repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(201,168,76,0.02) 80px, rgba(201,168,76,0.02) 81px);
+  }
+  .hero-globe {
+    position: absolute; right: -5%;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, rgba(201,168,76,0.12), rgba(26,52,86,0.4) 60%, transparent 80%);
+    border: 1px solid rgba(201,168,76,0.15);
+    top: 50%; transform: translateY(-50%);
+    animation: slowRotate 30s linear infinite;
+  }
+  .hero-globe::before {
+    content: '';
+    position: absolute; inset: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+  .hero-globe::after {
+    content: '';
+    position: absolute; inset: 70px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.07);
+  }
+  @keyframes slowRotate { to { transform: translateY(-50%) rotate(360deg); } }
+
+  .hero-content { position: relative; z-index: 2; max-width: 620px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.8rem; color: var(--gold-light);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+  .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 900; line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: normal; color: var(--gold);
+    display: block;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem; line-height: 1.8;
+    max-width: 500px; margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--navy);
+    padding: 0.9rem 2.2rem; border: none;
+    border-radius: 4px; font-weight: 700;
+    font-size: 1rem; cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.3); }
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    padding: 0.9rem 2.2rem;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: 4px; font-weight: 500;
+    font-size: 1rem; cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700;
+    color: var(--gold);
+  }
+  .hero-stat-label {
+    font-size: 0.8rem; color: rgba(255,255,255,0.5);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  /* ===== SECTION BASE ===== */
+  section { padding: 6rem 4rem; }
+  .section-tag {
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.15em; color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 1rem; line-height: 1.7;
+    max-width: 540px;
+  }
+  .section-header { margin-bottom: 3.5rem; }
+
+  /* ===== PROCESS ===== */
+  .process-section { background: var(--navy-mid); }
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 50px; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+  .process-step { padding: 2rem; position: relative; }
+  .step-num {
+    width: 56px; height: 56px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    background: var(--navy-mid);
+    position: relative; z-index: 1;
+  }
+  .process-step h3 {
+    font-size: 1rem; font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .process-step p {
+    font-size: 0.88rem; color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+  }
+
+  /* ===== SERVICES ===== */
+  .services-section { background: var(--navy); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .service-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .service-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.04), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .service-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-4px); }
+  .service-card:hover::after { opacity: 1; }
+  .service-icon {
+    font-size: 2rem; margin-bottom: 1.2rem;
+    display: block;
+  }
+  .service-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .service-card p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+  .service-arrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--gold); font-size: 0.8rem;
+    font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-top: 1.2rem;
+    transition: gap 0.2s;
+  }
+  .service-card:hover .service-arrow { gap: 10px; }
+
+  /* ===== PRICING ===== */
+  .pricing-section { background: var(--navy-mid); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .pricing-card {
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 8px;
+    padding: 2.5rem;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .pricing-card.featured {
+    background: linear-gradient(145deg, #1A3456, #12243D);
+    border: 2px solid var(--gold);
+  }
+  .pricing-card.featured::before {
+    content: 'MÁS POPULAR';
+    position: absolute; top: 1.2rem; right: 1.2rem;
+    background: var(--gold); color: var(--navy);
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+  }
+  .plan-name {
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.15em; color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+  .plan-price {
+    font-family: 'Playfair Display', serif;
+    display: flex; align-items: baseline; gap: 4px;
+    margin-bottom: 0.5rem;
+  }
+  .price-currency { font-size: 1.2rem; color: var(--gold); align-self: flex-start; padding-top: 6px; }
+  .price-amount {
+    font-size: 3rem; font-weight: 700;
+    line-height: 1;
+    transition: all 0.3s;
+  }
+  .price-period { font-size: 0.85rem; color: var(--text-muted); }
+  .plan-desc {
+    font-size: 0.85rem; color: rgba(255,255,255,0.5);
+    margin-bottom: 1.5rem; padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    line-height: 1.6;
+  }
+  .plan-features { list-style: none; margin-bottom: 2rem; }
+  .plan-features li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 0.88rem; color: rgba(255,255,255,0.75);
+    padding: 0.45rem 0;
+  }
+  .plan-features li::before {
+    content: '✓'; color: var(--gold);
+    font-weight: 700; font-size: 0.85rem;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .plan-btn {
+    width: 100%; padding: 0.9rem;
+    border-radius: 4px; font-weight: 600;
+    font-size: 0.9rem; cursor: pointer;
+    transition: all 0.2s; letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--gold);
+  }
+  .plan-btn.outline { background: transparent; color: var(--gold); }
+  .plan-btn.outline:hover { background: rgba(201,168,76,0.1); }
+  .plan-btn.solid { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+  .plan-btn.solid:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* currency selector */
+  .currency-row {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .currency-row label {
+    font-size: 0.85rem; color: rgba(255,255,255,0.6);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .currency-select {
+    background: var(--navy); color: var(--white);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px; font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  /* ===== PAYMENT METHODS ===== */
+  .payment-section { background: var(--navy); }
+  .payment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .payment-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex; flex-direction: column;
+    align-items: flex-start; gap: 0.6rem;
+    transition: all 0.3s;
+  }
+  .payment-card:hover { border-color: rgba(201,168,76,0.35); }
+  .payment-icon { font-size: 1.8rem; }
+  .payment-name { font-size: 0.95rem; font-weight: 600; }
+  .payment-detail { font-size: 0.8rem; color: rgba(255,255,255,0.4); line-height: 1.5; }
+
+  /* ===== TESTIMONIALS ===== */
+  .testimonials-section { background: var(--navy-mid); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .testimonial-card {
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 8px;
+    padding: 2rem;
+  }
+  .stars { color: var(--gold); font-size: 1rem; margin-bottom: 1rem; letter-spacing: 2px; }
+  .testimonial-text {
+    font-size: 0.95rem; line-height: 1.8;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .testimonial-text::before { content: '"'; font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); }
+  .author-row { display: flex; align-items: center; gap: 12px; }
+  .author-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem; color: var(--navy);
+  }
+  .author-name { font-size: 0.9rem; font-weight: 600; }
+  .author-location { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 1px; }
+
+  /* ===== FAQ ===== */
+  .faq-section { background: var(--navy); }
+  .faq-list { max-width: 720px; }
+  .faq-item {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+  }
+  .faq-q {
+    width: 100%; background: none; border: none;
+    color: var(--white); text-align: left;
+    padding: 1.4rem 0;
+    font-size: 0.98rem; font-weight: 500;
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 1rem; font-family: 'DM Sans', sans-serif;
+  }
+  .faq-q:hover { color: var(--gold); }
+  .faq-toggle {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 1rem;
+    transition: transform 0.3s, background 0.2s;
+  }
+  .faq-item.open .faq-toggle { transform: rotate(45deg); background: rgba(201,168,76,0.1); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+  }
+  .faq-item.open .faq-a { max-height: 400px; padding-bottom: 1.2rem; }
+  .faq-a p { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.75; }
+
+  /* ===== CTA BANNER ===== */
+  .cta-banner {
+    background: linear-gradient(135deg, #1A3456 0%, #12243D 100%);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 5rem 4rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.08), transparent 70%);
+  }
+  .cta-banner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700; margin-bottom: 1rem;
+    position: relative;
+  }
+  .cta-banner p {
+    color: rgba(255,255,255,0.6);
+    font-size: 1rem; margin-bottom: 2rem;
+    position: relative;
+  }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+  .btn-whatsapp {
+    background: #25D366; color: white;
+    padding: 0.9rem 2rem;
+    border: none; border-radius: 4px;
+    font-weight: 700; font-size: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-whatsapp:hover { background: #20B858; transform: translateY(-2px); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: #060E1A;
+    padding: 3rem 4rem;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+  .footer-brand .nav-logo { font-size: 1.4rem; margin-bottom: 0.8rem; display: block; }
+  .footer-brand p { font-size: 0.85rem; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 280px; }
+  .footer-col h4 {
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.5rem; }
+  .footer-col ul li a {
+    color: rgba(255,255,255,0.4); text-decoration: none;
+    font-size: 0.88rem;
+    transition: color 0.2s;
+  }
+  .footer-col ul li a:hover { color: var(--white); }
+  .footer-bottom {
+    background: #060E1A;
+    padding: 1.2rem 4rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom p { font-size: 0.8rem; color: rgba(255,255,255,0.25); }
+
+  /* ===== ADMIN PANEL ===== */
+  .admin-toggle {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--gold); color: var(--navy);
+    border: none; border-radius: 50%;
+    width: 56px; height: 56px;
+    font-size: 1.3rem; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.5);
+    z-index: 200;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .admin-toggle:hover { transform: scale(1.1); }
+
+  .admin-panel {
+    position: fixed; top: 0; right: -420px;
+    width: 420px; height: 100vh;
+    background: #060E1A;
+    border-left: 1px solid rgba(201,168,76,0.2);
+    z-index: 300;
+    overflow-y: auto;
+    transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+    padding: 0;
+  }
+  .admin-panel.open { right: 0; }
+
+  .admin-header {
+    position: sticky; top: 0;
+    background: #060E1A;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    padding: 1.5rem 1.5rem 1rem;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 10;
+  }
+  .admin-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--gold);
+  }
+  .admin-close {
+    background: none; border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 1.4rem; cursor: pointer;
+    transition: color 0.2s;
+  }
+  .admin-close:hover { color: var(--white); }
+
+  .admin-body { padding: 1.5rem; }
+  .admin-section { margin-bottom: 2rem; }
+  .admin-section-title {
+    font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.15em; color: var(--gold);
+    margin-bottom: 1rem; padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .admin-field { margin-bottom: 1rem; }
+  .admin-field label {
+    display: block; font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.35rem;
+  }
+  .admin-field input, .admin-field textarea, .admin-field select {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--white);
+    padding: 0.55rem 0.8rem;
+    border-radius: 4px; font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
+  }
+  .admin-field input:focus, .admin-field textarea:focus {
+    outline: none; border-color: var(--gold);
+  }
+  .admin-field textarea { resize: vertical; min-height: 70px; }
+  .admin-save {
+    width: 100%; padding: 0.75rem;
+    background: var(--gold); color: var(--navy);
+    border: none; border-radius: 4px;
+    font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; margin-top: 0.5rem;
+    transition: background 0.2s;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .admin-save:hover { background: var(--gold-light); }
+
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .toggle-row label {
+    font-size: 0.85rem; color: rgba(255,255,255,0.6);
+  }
+  .toggle {
+    width: 40px; height: 22px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 100px; cursor: pointer;
+    position: relative; transition: background 0.2s;
+    border: none;
+  }
+  .toggle.on { background: var(--gold); }
+  .toggle::after {
+    content: '';
+    position: absolute; top: 3px; left: 3px;
+    width: 16px; height: 16px;
+    background: white; border-radius: 50%;
+    transition: left 0.2s;
+  }
+  .toggle.on::after { left: 21px; }
+
+  /* Scrollbar */
+  .admin-panel::-webkit-scrollbar { width: 5px; }
+  .admin-panel::-webkit-scrollbar-track { background: transparent; }
+  .admin-panel::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 10px; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section, .hero { padding: 4rem 1.5rem; }
+    footer { grid-template-columns: 1fr; }
+    .footer-bottom { padding: 1rem 1.5rem; flex-direction: column; gap: 0.5rem; }
+    .admin-panel { width: 100%; right: -100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" id="site-brand">Visa<span>Expert</span></div>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#planes">Planes</a></li>
+    <li><a href="#pagos">Pagos</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Consulta Gratis</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-globe"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Agencia Certificada · +8 años de experiencia</div>
+    <h1>
+      Tu visa americana,
+      <em id="hero-headline">garantizada.</em>
+    </h1>
+    <p id="hero-sub">Preparamos tu solicitud, documentación y entrevista consular con acompañamiento personalizado de principio a fin. Más de 5,000 visas aprobadas en toda Latinoamérica.</p>
+    <div class="hero-actions">
+      <a href="#planes" class="btn-primary">Ver Planes y Precios</a>
+      <a href="#contacto" class="btn-secondary">Hablar con un asesor</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num" id="stat-visas">5,000+</div>
+        <div class="hero-stat-label">Visas Aprobadas</div>
+      </div>
+      <div>
+        <div class="hero-stat-num" id="stat-paises">12+</div>
+        <div class="hero-stat-label">Países Atendidos</div>
+      </div>
+      <div>
+        <div class="hero-stat-num" id="stat-years">8 años</div>
+        <div class="hero-stat-label">De Experiencia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="section-header">
+    <div class="section-tag">¿Cómo funciona?</div>
+    <h2 class="section-title">Proceso simple, <br>resultados confiables</h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <h3>Consulta inicial</h3>
+      <p>Evaluamos tu perfil y situación migratoria sin costo. Te indicamos qué visa aplica a tu caso y la probabilidad de aprobación.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <h3>Llenado DS-160</h3>
+      <p>Nuestro equipo completa el formulario DS-160 con toda tu información de forma precisa y coherente con tu perfil.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <h3>Asignación de cita</h3>
+      <p>Gestionamos tu cita consular en la embajada de tu preferencia, optimizando tiempos de espera.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <h3>Preparación entrevista</h3>
+      <p>Sesión de preparación, documentos, tips de vestimenta, preguntas frecuentes y estrategia según tu perfil.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="servicios">
+  <div class="section-header">
+    <div class="section-tag">Nuestros servicios</div>
+    <h2 class="section-title">Te preparamos para <br>cualquier tipo de visa</h2>
+    <p class="section-sub">Especialistas en visas norteamericanas, con experiencia en todos los perfiles y situaciones migratorias.</p>
+  </div>
+  <div class="services-grid" id="services-grid">
+    <div class="service-card">
+      <span class="service-icon">✈️</span>
+      <h3>Visa de Turista (B1/B2)</h3>
+      <p>Preparación completa para solicitud de visa de turista a Estados Unidos. Incluye DS-160, cita y preparación de entrevista.</p>
+      <div class="service-arrow">Ver detalles →</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">📋</span>
+      <h3>ESTA / Visa Waiver</h3>
+      <p>Llenado y revisión del formulario ESTA para países del Programa de Exención de Visas. Rápido y seguro.</p>
+      <div class="service-arrow">Ver detalles →</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🎓</span>
+      <h3>Visa Estudiantil (F1)</h3>
+      <p>Preparación para solicitantes con I-20 aprobada. Estrategia personalizada para demostrar vínculos con tu país de origen.</p>
+      <div class="service-arrow">Ver detalles →</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">⚓</span>
+      <h3>Visa C1-D (Tripulantes)</h3>
+      <p>Especialistas en visas para tripulantes de navieras, aerolíneas y cruceros. Proceso acelerado disponible.</p>
+      <div class="service-arrow">Ver detalles →</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🌴</span>
+      <h3>Visa Rep. Dominicana</h3>
+      <p>Preparación para solicitud de visa turista a República Dominicana. Documentación y presentación consular.</p>
+      <div class="service-arrow">Ver detalles →</div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🛡️</span>
+      <h3>Solicitud de Perdón</h3>
+      <p>Asistencia especializada para casos de infracciones previas a las leyes migratorias de Estados Unidos.</p>
+      <div class="service-arrow">Ver detalles →</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="planes">
+  <div class="section-header">
+    <div class="section-tag">Planes y precios</div>
+    <h2 class="section-title">Inversión transparente, <br>sin sorpresas</h2>
+    <p class="section-sub">Elige el plan que mejor se adapte a tu situación. Todos incluyen seguimiento personalizado.</p>
+  </div>
+
+  <div class="currency-row">
+    <label>Moneda:</label>
+    <select class="currency-select" id="currency-selector" onchange="updatePrices()">
+      <option value="USD">🇺🇸 USD</option>
+      <option value="ARS">🇦🇷 ARS</option>
+      <option value="COP">🇨🇴 COP</option>
+      <option value="MXN">🇲🇽 MXN</option>
+      <option value="PEN">🇵🇪 PEN</option>
+    </select>
+  </div>
+
+  <div class="pricing-grid" id="pricing-grid">
+    <!-- cards populated by JS -->
+  </div>
+</section>
+
+<!-- PAYMENT METHODS -->
+<section class="payment-section" id="pagos">
+  <div class="section-header">
+    <div class="section-tag">Métodos de pago</div>
+    <h2 class="section-title">Paga como <br>más te convenga</h2>
+  </div>
+  <div class="payment-grid" id="payment-grid">
+    <!-- populated by JS -->
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="testimonios">
+  <div class="section-header">
+    <div class="section-tag">Testimonios</div>
+    <h2 class="section-title">Clientes que confiaron <br>en nosotros</h2>
+  </div>
+  <div class="testimonials-grid" id="testimonials-grid">
+    <!-- populated by JS -->
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="section-header">
+    <div class="section-tag">Preguntas frecuentes</div>
+    <h2 class="section-title">¿Tienes dudas?</h2>
+  </div>
+  <div class="faq-list" id="faq-list">
+    <!-- populated by JS -->
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner" id="contacto">
+  <h2 id="cta-headline">¿Listo para empezar?</h2>
+  <p id="cta-sub">Habla con uno de nuestros asesores hoy mismo. Consulta inicial sin costo.</p>
+  <div class="cta-actions">
+    <a href="https://wa.me/584128672339" target="_blank" class="btn-whatsapp">
+      💬 Chatear por WhatsApp
+    </a>
+    <button class="btn-primary" style="border:none;">Solicitar consulta gratis</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <span class="nav-logo" id="footer-brand">Visa<span>Expert</span></span>
+    <p id="footer-desc">Agencia de consultoría especializada en preparación de solicitudes de visa norteamericana y otros servicios migratorios desde 2016.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Servicios</h4>
+    <ul>
+      <li><a href="#">Visa Turista B1/B2</a></li>
+      <li><a href="#">ESTA / Visa Waiver</a></li>
+      <li><a href="#">Visa Estudiantil F1</a></li>
+      <li><a href="#">Visa C1-D</a></li>
+      <li><a href="#">Otras visas</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Empresa</h4>
+    <ul>
+      <li><a href="#">Sobre nosotros</a></li>
+      <li><a href="#">Testimonios</a></li>
+      <li><a href="#">Noticias</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Contacto</h4>
+    <ul>
+      <li><a href="#" id="footer-email">info@visaexpert.com</a></li>
+      <li><a href="#" id="footer-phone">+1 (407) 555-0100</a></li>
+      <li><a href="#" id="footer-city">Orlando, Florida</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <p>© 2025 VisaExpert. Todos los derechos reservados.</p>
+  <p>Política de Privacidad · Términos de Servicio</p>
+</div>
+
+<!-- ADMIN TOGGLE -->
+<button class="admin-toggle" onclick="toggleAdmin()" title="Editar contenido">⚙</button>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="admin-panel">
+  <div class="admin-header">
+    <h3>✦ Panel de Edición</h3>
+    <button class="admin-close" onclick="toggleAdmin()">✕</button>
+  </div>
+  <div class="admin-body">
+
+    <div class="admin-section">
+      <div class="admin-section-title">Identidad de marca</div>
+      <div class="admin-field">
+        <label>Nombre del sitio</label>
+        <input type="text" id="a-brand" value="VisaExpert" oninput="applyBrand()">
+      </div>
+      <div class="admin-field">
+        <label>Email de contacto</label>
+        <input type="text" id="a-email" value="info@visaexpert.com" oninput="applyContact()">
+      </div>
+      <div class="admin-field">
+        <label>Teléfono / WhatsApp</label>
+        <input type="text" id="a-phone" value="+1 (407) 555-0100" oninput="applyContact()">
+      </div>
+      <div class="admin-field">
+        <label>Ciudad / Ubicación</label>
+        <input type="text" id="a-city" value="Orlando, Florida" oninput="applyContact()">
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-title">Hero / Portada</div>
+      <div class="admin-field">
+        <label>Frase principal (em)</label>
+        <input type="text" id="a-headline" value="garantizada." oninput="document.getElementById('hero-headline').textContent=this.value">
+      </div>
+      <div class="admin-field">
+        <label>Subtítulo</label>
+        <textarea id="a-sub" oninput="document.getElementById('hero-sub').textContent=this.value">Preparamos tu solicitud, documentación y entrevista consular con acompañamiento personalizado de principio a fin. Más de 5,000 visas aprobadas en toda Latinoamérica.</textarea>
+      </div>
+      <div class="admin-field">
+        <label>Stat 1 (visas)</label>
+        <input type="text" id="a-s1" value="5,000+" oninput="document.getElementById('stat-visas').textContent=this.value">
+      </div>
+      <div class="admin-field">
+        <label>Stat 2 (países)</label>
+        <input type="text" id="a-s2" value="12+" oninput="document.getElementById('stat-paises').textContent=this.value">
+      </div>
+      <div class="admin-field">
+        <label>Stat 3 (años)</label>
+        <input type="text" id="a-s3" value="8 años" oninput="document.getElementById('stat-years').textContent=this.value">
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-title">Precios (USD base)</div>
+      <div id="price-editor"></div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-title">Métodos de pago</div>
+      <div class="toggle-row">
+        <label>Transferencia bancaria</label>
+        <button class="toggle on" id="t-bank" onclick="togglePayment('bank',this)"></button>
+      </div>
+      <div class="toggle-row">
+        <label>Zelle</label>
+        <button class="toggle on" id="t-zelle" onclick="togglePayment('zelle',this)"></button>
+      </div>
+      <div class="toggle-row">
+        <label>PayPal</label>
+        <button class="toggle on" id="t-paypal" onclick="togglePayment('paypal',this)"></button>
+      </div>
+      <div class="toggle-row">
+        <label>Tarjeta de crédito/débito</label>
+        <button class="toggle on" id="t-card" onclick="togglePayment('card',this)"></button>
+      </div>
+      <div class="toggle-row">
+        <label>Binance / Crypto</label>
+        <button class="toggle on" id="t-crypto" onclick="togglePayment('crypto',this)"></button>
+      </div>
+      <div class="toggle-row">
+        <label>Efectivo (presencial)</label>
+        <button class="toggle on" id="t-cash" onclick="togglePayment('cash',this)"></button>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-title">CTA Banner</div>
+      <div class="admin-field">
+        <label>Título CTA</label>
+        <input type="text" id="a-cta" value="¿Listo para empezar?" oninput="document.getElementById('cta-headline').textContent=this.value">
+      </div>
+      <div class="admin-field">
+        <label>Subtítulo CTA</label>
+        <input type="text" id="a-ctasub" value="Habla con uno de nuestros asesores hoy mismo. Consulta inicial sin costo." oninput="document.getElementById('cta-sub').textContent=this.value">
+      </div>
+    </div>
+
+    <button class="admin-save" onclick="saveAll()">💾 Guardar cambios</button>
+  </div>
+</div>
+
+<script>
+const PLANS = [
+  {
+    id: 'basico',
+    name: 'Básico',
+    price: 150,
+    desc: 'Para perfiles sencillos con documentación básica.',
+    features: ['Consulta de elegibilidad', 'Llenado DS-160', 'Guía de documentos', 'Email de soporte'],
+    featured: false,
+    btn: 'outline'
+  },
+  {
+    id: 'completo',
+    name: 'Completo',
+    price: 280,
+    desc: 'El más elegido. Preparación integral con sesión de entrevista.',
+    features: ['Todo lo del plan Básico', 'Asignación de cita consular', 'Sesión de preparación entrevista', 'Soporte por WhatsApp', 'Revisión de documentos', '1 revisión post-entrevista'],
+    featured: true,
+    btn: 'solid'
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    price: 450,
+    desc: 'Para casos complejos que requieren atención prioritaria.',
+    features: ['Todo lo del plan Completo', 'Asesor dedicado exclusivo', 'Análisis profundo de perfil', 'Preparación simulacro entrevista', 'Soporte 24/7', 'Garantía de acompañamiento total'],
+    featured: false,
+    btn: 'outline'
+  }
+];
+
+const FX = { USD: 1, ARS: 1200, COP: 4200, MXN: 17.2, PEN: 3.8 };
+const FX_SYMBOLS = { USD: '$', ARS: '$', COP: '$', MXN: '$', PEN: 'S/' };
+
+const ALL_PAYMENTS = [
+  { id: 'bank', icon: '🏦', name: 'Transferencia bancaria', detail: 'Bancos de EE.UU. y Venezuela.\nDatos enviados por email.' },
+  { id: 'zelle', icon: '⚡', name: 'Zelle', detail: 'Transferencia instantánea.\nSolo cuentas bancarias de EE.UU.' },
+  { id: 'paypal', icon: '🅿️', name: 'PayPal', detail: 'Aceptamos pagos internacionales.\nComisión del 3%.' },
+  { id: 'card', icon: '💳', name: 'Tarjeta Crédito/Débito', detail: 'Visa, Mastercard, Amex.\nPago seguro encriptado.' },
+  { id: 'crypto', icon: '₿', name: 'Binance / Crypto', detail: 'USDT, BTC, BNB.\nEnviar comprobante por WhatsApp.' },
+  { id: 'cash', icon: '💵', name: 'Efectivo', detail: 'Presencial en nuestras oficinas.\nPrevia cita.' }
+];
+
+const TESTIMONIALS = [
+  { text: 'Aprobaron mi visa en el primer intento gracias a la preparación de VisaExpert. El equipo estuvo pendiente de cada detalle.', name: 'María G.', location: 'Caracas, Venezuela', initial: 'MG' },
+  { text: 'Excelente servicio. Me guiaron desde el principio, llenaron el DS-160 sin errores y me prepararon muy bien para la entrevista.', name: 'Carlos R.', location: 'Bogotá, Colombia', initial: 'CR' },
+  { text: 'Mi caso era complicado por una negativa anterior. Aun así lo logramos. Muy profesionales y honestos en todo momento.', name: 'Ana L.', location: 'Lima, Perú', initial: 'AL' }
+];
+
+const FAQS = [
+  { q: '¿Cuánto tiempo tarda el proceso?', a: 'Depende del país y la embajada seleccionada. En promedio, desde el primer contacto hasta la fecha de entrevista pueden transcurrir entre 2 y 8 semanas. Una vez pagado tu plan, el proceso de preparación comienza en 24-48 horas.' },
+  { q: '¿Garantizan la aprobación de la visa?', a: 'La decisión final siempre la tiene el oficial consular. Lo que garantizamos es la mejor preparación posible para maximizar tus probabilidades. Tenemos más de un 85% de tasa de aprobación en perfiles estándar.' },
+  { q: '¿Puedo solicitar su servicio desde cualquier país?', a: 'Sí. Atendemos clientes de toda Latinoamérica, España y otros países hispanohablantes. Todo el proceso se realiza 100% en línea, a través de videollamadas, WhatsApp y correo electrónico.' },
+  { q: '¿Qué pasa si me niegan la visa?', a: 'En el plan Premium ofrecemos una sesión de análisis post-negativa para evaluar los motivos y trazar una estrategia de re-aplicación. En otros planes, ofrecemos orientación adicional a precio reducido.' },
+  { q: '¿Cuándo y cómo realizo el pago?', a: 'El pago se realiza antes de comenzar el proceso. Aceptamos transferencias bancarias, Zelle, PayPal, tarjeta de crédito/débito, criptomonedas y efectivo. Los datos de pago se envían por email al formalizar tu solicitud.' }
+];
+
+let activePayments = new Set(ALL_PAYMENTS.map(p => p.id));
+
+function getCurrency() {
+  return document.getElementById('currency-selector').value;
+}
+
+function formatPrice(usd) {
+  const cur = getCurrency();
+  const val = Math.round(usd * FX[cur]);
+  const sym = FX_SYMBOLS[cur];
+  return { sym, val: val.toLocaleString() };
+}
+
+function renderPricing() {
+  const grid = document.getElementById('pricing-grid');
+  grid.innerHTML = PLANS.map(p => {
+    const { sym, val } = formatPrice(p.price);
+    return `
+    <div class="pricing-card ${p.featured ? 'featured' : ''}">
+      <div class="plan-name">${p.name}</div>
+      <div class="plan-price">
+        <span class="price-currency">${sym}</span>
+        <span class="price-amount" id="price-${p.id}">${val}</span>
+        <span class="price-period"> / servicio</span>
+      </div>
+      <p class="plan-desc">${p.desc}</p>
+      <ul class="plan-features">
+        ${p.features.map(f => `<li>${f}</li>`).join('')}
+      </ul>
+      <button class="plan-btn ${p.btn}" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
+        ${p.featured ? 'Comenzar ahora' : 'Seleccionar plan'}
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function updatePrices() {
+  PLANS.forEach(p => {
+    const el = document.getElementById('price-' + p.id);
+    if (el) {
+      const { val } = formatPrice(p.price);
+      el.textContent = val;
+    }
+  });
+}
+
+function renderPayments() {
+  const grid = document.getElementById('payment-grid');
+  grid.innerHTML = ALL_PAYMENTS
+    .filter(p => activePayments.has(p.id))
+    .map(p => `
+      <div class="payment-card">
+        <div class="payment-icon">${p.icon}</div>
+        <div class="payment-name">${p.name}</div>
+        <div class="payment-detail">${p.detail.replace(/\n/g, '<br>')}</div>
+      </div>
+    `).join('');
+}
+
+function renderTestimonials() {
+  const grid = document.getElementById('testimonials-grid');
+  grid.innerHTML = TESTIMONIALS.map(t => `
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">${t.text}"</p>
+      <div class="author-row">
+        <div class="author-avatar">${t.initial}</div>
+        <div>
+          <div class="author-name">${t.name}</div>
+          <div class="author-location">📍 ${t.location}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderFAQ() {
+  const list = document.getElementById('faq-list');
+  list.innerHTML = FAQS.map((f, i) => `
+    <div class="faq-item" id="faq-${i}">
+      <button class="faq-q" onclick="toggleFAQ(${i})">
+        ${f.q}
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-a"><p>${f.a}</p></div>
+    </div>
+  `).join('');
+}
+
+function toggleFAQ(i) {
+  const item = document.getElementById('faq-' + i);
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+function renderPriceEditor() {
+  const cont = document.getElementById('price-editor');
+  cont.innerHTML = PLANS.map(p => `
+    <div class="admin-field">
+      <label>Precio ${p.name} (USD)</label>
+      <input type="number" id="pe-${p.id}" value="${p.price}"
+        oninput="updatePlanPrice('${p.id}', this.value)">
+    </div>
+  `).join('');
+}
+
+function updatePlanPrice(id, val) {
+  const p = PLANS.find(x => x.id === id);
+  if (p) {
+    p.price = parseFloat(val) || 0;
+    updatePrices();
+  }
+}
+
+function toggleAdmin() {
+  document.getElementById('admin-panel').classList.toggle('open');
+}
+
+function togglePayment(id, btn) {
+  btn.classList.toggle('on');
+  if (activePayments.has(id)) activePayments.delete(id);
+  else activePayments.add(id);
+  renderPayments();
+}
+
+function applyBrand() {
+  const name = document.getElementById('a-brand').value;
+  document.querySelectorAll('.nav-logo').forEach(el => {
+    el.innerHTML = name + '<span></span>';
+  });
+}
+
+function applyContact() {
+  document.getElementById('footer-email').textContent = document.getElementById('a-email').value;
+  document.getElementById('footer-phone').textContent = document.getElementById('a-phone').value;
+  document.getElementById('footer-city').textContent = document.getElementById('a-city').value;
+}
+
+function saveAll() {
+  const btn = document.querySelector('.admin-save');
+  btn.textContent = '✓ Cambios guardados';
+  btn.style.background = '#1A7A4A';
+  setTimeout(() => {
+    btn.textContent = '💾 Guardar cambios';
+    btn.style.background = '';
+  }, 2000);
+}
+
+// Init
+renderPricing();
+renderPayments();
+renderTestimonials();
+renderFAQ();
+renderPriceEditor();
+</script>
+</body>
+</html>
